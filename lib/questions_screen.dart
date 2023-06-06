@@ -11,18 +11,46 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  bool isSelected = false;
   int currentQuestionIndex = 0;
+  List<bool> answerSelections = [];
+  String currentAnswer = "";
+  List<String> shufledList = [];
 
-  void tap() {
+  @override
+  void initState() {
+    answerSelections = List<bool>.filled(
+        questions[currentQuestionIndex].answers.length, false);
+
+    shufledList = questions[currentQuestionIndex].getShuffledAnswer();
+    super.initState();
+  }
+
+  void onAnswerTap(int index, String answer) {
     setState(() {
-      isSelected = !isSelected;
+      answerSelections = List<bool>.filled(
+          questions[currentQuestionIndex].answers.length, false);
+      if (currentQuestionIndex <
+          questions[currentQuestionIndex].answers.length) {
+        currentQuestionIndex++;
+        shufledList = questions[currentQuestionIndex].getShuffledAnswer();
+      }
+    });
+  }
+
+  void onContinueClicked() {
+    setState(() {
+      answerSelections = List<bool>.filled(
+          questions[currentQuestionIndex].answers.length, false);
+      if (currentQuestionIndex <
+          questions[currentQuestionIndex].answers.length) {
+        currentQuestionIndex++;
+        shufledList = questions[currentQuestionIndex].getShuffledAnswer();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var currentQuestion = questions[currentQuestionIndex];
     return Container(
       padding: const EdgeInsets.all(17),
       child: Column(
@@ -34,7 +62,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             ),
           ),
           Text(
-            currentQuestion.text,
+            questions[currentQuestionIndex].text,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 21,
@@ -44,11 +72,16 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           const SizedBox(
             height: 40,
           ),
-          ...currentQuestion.getShuffledAnswer().map(
-            (answer) {
+          ...shufledList.asMap().entries.map(
+            (entry) {
+              final index = entry.key;
+              final answer = entry.value;
               return AnswerItem(
-                isSelected: currentQuestion.isSelected,
+                isSelected: answerSelections[index],
                 answerText: answer,
+                onTap: () {
+                  onAnswerTap(index, answer);
+                },
               );
             },
           ),
@@ -58,17 +91,17 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: onContinueClicked,
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0XFF6949FF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
                 ),
                 // padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
-                minimumSize: const Size.fromHeight(50)),
+                minimumSize: const Size.fromHeight(60)),
             child: const Text(
               'Continue',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(

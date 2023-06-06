@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AnswerItem extends StatefulWidget {
-  const AnswerItem(
-      {super.key, required this.isSelected, required this.answerText});
+  const AnswerItem({
+    super.key,
+    required this.isSelected,
+    required this.answerText,
+    required this.onTap,
+  });
   final bool isSelected;
   final String answerText;
+  final VoidCallback onTap;
 
   @override
   State<AnswerItem> createState() {
@@ -40,7 +45,7 @@ class _AnswerItemState extends State<AnswerItem> {
             ? const Color(0XFF1E1E31)
             : const Color(0XFF1F222A),
         contentPadding: const EdgeInsets.symmetric(vertical: 9),
-        onTap: () {},
+        onTap: widget.onTap,
       ),
     );
   }
