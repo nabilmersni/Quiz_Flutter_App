@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:quiz_app/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen(this.switchScreen, {super.key});
+  final void Function(String screen) switchScreen;
 
   @override
   State<SplashScreen> createState() {
@@ -19,39 +19,39 @@ class _SplashScreen extends State<SplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 4),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomePage(),
-        ),
-      ),
+      // () => Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const HomePage(),
+      //   ),
+      // ),
+      () {
+        widget.switchScreen("home");
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF181A20),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            width: double.infinity,
-          ),
-          Lottie.asset(
-            'assets/lotties/splash.json',
-            width: 400,
-            height: 400,
-            fit: BoxFit.fill,
-          ),
-          Lottie.asset(
-            'assets/lotties/loader.json',
-            width: 170,
-            height: 170,
-          )
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(
+          width: double.infinity,
+        ),
+        Lottie.asset(
+          'assets/lotties/splash.json',
+          width: 400,
+          height: 400,
+          fit: BoxFit.fill,
+        ),
+        Lottie.asset(
+          'assets/lotties/loader.json',
+          width: 170,
+          height: 170,
+        )
+      ],
     );
   }
 }
