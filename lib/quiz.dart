@@ -20,7 +20,6 @@ class _QuizState extends State<Quiz> {
   @override
   void initState() {
     activeScreen = SplashScreen(switchScreen);
-    // activeScreen = ResultsScreen(selectedAnswers);
     super.initState();
   }
 
