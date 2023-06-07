@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage(this.switchScreen, {super.key});
@@ -22,11 +23,13 @@ class HomePage extends StatelessWidget {
                 width: 300,
                 height: 300,
               ),
-              const Text(
+              Text(
                 'Learn flutter whenever and wherever you want. It\'s free and forever',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
+                style: GoogleFonts.tiltNeon(
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                  ),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -44,7 +47,15 @@ class HomePage extends StatelessWidget {
                 // padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
                 minimumSize: const Size.fromHeight(50)),
             icon: const Icon(Icons.arrow_right_alt),
-            label: const Text('GET STARTED'),
+            label: Text(
+              'GET STARTED',
+              style: GoogleFonts.tiltNeon(
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                ),
+              ),
+            ),
           )
         ],
       ),

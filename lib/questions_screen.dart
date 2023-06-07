@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/answer_item.dart';
 import 'package:quiz_app/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen(this.chooseAnswer, {super.key});
+  final void Function(String answerSelected) chooseAnswer;
   @override
   State<StatefulWidget> createState() {
     return _QuestionsScreenState();
@@ -15,6 +17,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   List<bool> answerSelections = [];
   String currentAnswer = "";
   List<String> shufledList = [];
+  bool isSelected = false;
 
   @override
   void initState() {
@@ -27,26 +30,26 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   void onAnswerTap(int index, String answer) {
     setState(() {
+      isSelected = true;
       answerSelections = List<bool>.filled(
           questions[currentQuestionIndex].answers.length, false);
-      if (currentQuestionIndex <
-          questions[currentQuestionIndex].answers.length) {
-        currentQuestionIndex++;
-        shufledList = questions[currentQuestionIndex].getShuffledAnswer();
-      }
+      answerSelections[index] = !answerSelections[index];
+      currentAnswer = answer;
     });
   }
 
   void onContinueClicked() {
-    setState(() {
-      answerSelections = List<bool>.filled(
-          questions[currentQuestionIndex].answers.length, false);
-      if (currentQuestionIndex <
-          questions[currentQuestionIndex].answers.length) {
+    if (isSelected) {
+      widget.chooseAnswer(currentAnswer);
+      setState(() {
+        answerSelections = List<bool>.filled(
+            questions[currentQuestionIndex].answers.length, false);
+
         currentQuestionIndex++;
         shufledList = questions[currentQuestionIndex].getShuffledAnswer();
-      }
-    });
+      });
+    }
+    isSelected = false;
   }
 
   @override
@@ -63,9 +66,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           ),
           Text(
             questions[currentQuestionIndex].text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 21,
+            style: GoogleFonts.tiltNeon(
+              textStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+              ),
             ),
             textAlign: TextAlign.center,
           ),
@@ -99,10 +104,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 ),
                 // padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
                 minimumSize: const Size.fromHeight(60)),
-            child: const Text(
-              'Continue',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-            ),
+            child: Text('Continue',
+                style: GoogleFonts.tiltNeon(
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )),
           ),
           const SizedBox(
             height: 30,

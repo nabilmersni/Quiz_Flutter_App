@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AnswerItem extends StatefulWidget {
   const AnswerItem({
@@ -25,10 +26,12 @@ class _AnswerItemState extends State<AnswerItem> {
       child: ListTile(
         title: Text(
           widget.answerText,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
+          style: GoogleFonts.tiltNeon(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 19,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           textAlign: TextAlign.center,
         ),

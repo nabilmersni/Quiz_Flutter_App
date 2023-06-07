@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/home_page.dart';
 import 'package:quiz_app/questions_screen.dart';
+import 'package:quiz_app/results_screen.dart';
 import 'package:quiz_app/splash_screen.dart';
 
 class Quiz extends StatefulWidget {
@@ -13,10 +15,12 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   Widget? activeScreen;
+  List<String> selectedAnswers = [];
 
   @override
   void initState() {
     activeScreen = SplashScreen(switchScreen);
+    // activeScreen = ResultsScreen(selectedAnswers);
     super.initState();
   }
 
@@ -25,9 +29,19 @@ class _QuizState extends State<Quiz> {
       if (screen == "home") {
         activeScreen = HomePage(switchScreen);
       } else if (screen == "questionScreen") {
-        activeScreen = const QuestionsScreen();
+        selectedAnswers = [];
+        activeScreen = QuestionsScreen(chooseAnswer);
       }
     });
+  }
+
+  void chooseAnswer(String answerSelected) {
+    selectedAnswers.add(answerSelected);
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = ResultsScreen(selectedAnswers, switchScreen);
+      });
+    }
   }
 
   @override
